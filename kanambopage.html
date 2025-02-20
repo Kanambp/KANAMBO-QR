@@ -80,11 +80,22 @@
       transform: scale(0.95);
     }
 
-    /* Background Animation */
-    @keyframes backgroundAnimation {
-      0% { background-position: 0% 0%; }
-      50% { background-position: 100% 100%; }
-      100% { background-position: 0% 0%; }
+    /* Audio Control Button */
+    .audio-btn {
+      background-color: #00ffcc;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: 0.3s;
+    }
+
+    .audio-btn:hover {
+      background-color: #009980;
     }
   </style>
 </head>
@@ -97,11 +108,30 @@
   <button onclick="window.open('https://wa.me/254114148625')" class="btn">DM Kanambo</button>
   <button onclick="window.open('https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb')" class="btn">Join Group</button>
 
-  <!-- Background Audio (Autoplay) -->
-  <audio id="background-music" autoplay loop>
+  <!-- Audio Control Button -->
+  <button class="audio-btn" onclick="toggleAudio()">Play Background Music</button>
+
+  <!-- Background Audio with Multiple Formats for Compatibility -->
+  <audio id="background-music" loop>
     <source src="https://www.bensound.com/bensound-music/bensound-epic.mp3" type="audio/mp3">
+    <source src="https://www.bensound.com/bensound-music/bensound-epic.ogg" type="audio/ogg">
+    <source src="https://www.bensound.com/bensound-music/bensound-epic.wav" type="audio/wav">
     Your browser does not support the audio element.
   </audio>
+
+  <script>
+    let audio = document.getElementById("background-music");
+
+    function toggleAudio() {
+      if (audio.paused) {
+        audio.play();
+        document.querySelector(".audio-btn").innerText = "Pause Background Music";
+      } else {
+        audio.pause();
+        document.querySelector(".audio-btn").innerText = "Play Background Music";
+      }
+    }
+  </script>
 
 </body>
 </html>
