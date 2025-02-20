@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>KANAMBO TECH </title>
+  <title>KANAMBO TECH</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
   <style>
+    /* Background Styling */
     body {
       display: flex;
       flex-direction: column;
@@ -12,77 +14,94 @@
       justify-content: center;
       height: 100vh;
       margin: 0;
-      background-color: black;
-    }
-
-    .btn {
-      --color: #e5f5f1;
-      --color2: rgb(0, 0, 0);
-      width: 200px;
-      padding: 0.8em 1.75em;
-      background-color: green;
-      border-radius: 6px;
-      border: .3px solid var(--color);
-      transition: .5s;
-      position: relative;
+      background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
       overflow: hidden;
-      cursor: pointer;
-      z-index: 1;
-      font-weight: 300;
-      font-size: 17px;
-      font-family: 'Roboto', 'Segoe UI', sans-serif;
-      text-transform: uppercase;
-      color: var(--color);
-      margin-bottom: 24px;
+      position: relative;
     }
 
-    .btn::after, .btn::before {
-      content: '';
-      display: block;
-      height: 100%;
-      width: 100%;
-      transform: skew(90deg) translate(-50%, -50%);
+    /* Floating Particle Animation */
+    body::before {
+      content: "";
       position: absolute;
-      inset: 50%;
-      left: 25%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/cubes.png'); /* Subtle texture */
+      opacity: 0.1;
       z-index: -1;
-      transition: .5s ease-out;
-      background-color: var(--color);
     }
 
+    /* Modern Button Styling */
+    .btn {
+      --color: #00ffcc;
+      width: 220px;
+      padding: 12px 20px;
+      background: transparent;
+      border: 2px solid var(--color);
+      border-radius: 8px;
+      color: var(--color);
+      font-size: 17px;
+      font-family: 'Poppins', sans-serif;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.5s;
+      position: relative;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    /* Button Glow and Hover Effects */
     .btn::before {
-      top: -50%;
-      left: -25%;
-      transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--color);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease-in-out;
+      z-index: -1;
     }
 
     .btn:hover::before {
-      transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
-    }
-
-    .btn:hover::after {
-      transform: skew(45deg) translate(-50%, -50%);
+      transform: scaleX(1);
     }
 
     .btn:hover {
-      color: var(--color2);
+      color: black;
+      box-shadow: 0 0 15px var(--color), 0 0 30px var(--color);
     }
 
     .btn:active {
-      filter: brightness(.7);
-      transform: scale(.98);
+      transform: scale(0.95);
+    }
+
+    /* Background Animation */
+    @keyframes backgroundAnimation {
+      0% { background-position: 0% 0%; }
+      50% { background-position: 100% 100%; }
+      100% { background-position: 0% 0%; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Modern Buttons -->
+  <button onclick="window.open('/pair')" class="btn">Pair Code</button>
+  <button onclick="window.open('https://github.com/Kanambp/Kan-dreaded')" class="btn">Bot Repo</button>
+  <button onclick="window.open('https://github.com/Kanambp/KANAMBO-QR')" class="btn">QR Code Repo</button>
+  <button onclick="window.open('https://wa.me/254114148625')" class="btn">DM Kanambo</button>
+  <button onclick="window.open('https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb')" class="btn">Join Group</button>
 
-  <button onclick="window.open(`/pair`)" class="btn">Pair Code</button>
-  <button onclick="window.open(`https://github.com/Kanambp/Kan-dreaded`)" class="btn">Bot Repo</button>
-  <button onclick="window.open(`https://github.com/Kanambp/KANAMBO-QR`)" class="btn">Qr code repo</button>
-  <button onclick="window.open(`https://wa.me/254114148625`)" class="btn">Dm Kanambo</button>
-  <button onclick="window.open(`https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb`)" class="btn">Join Group</button>
-  
+  <!-- Background Audio (Autoplay) -->
+  <audio id="background-music" autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-epic.mp3" type="audio/mp3">
+    Your browser does not support the audio element.
+  </audio>
 
 </body>
 </html>
