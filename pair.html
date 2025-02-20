@@ -13,22 +13,26 @@
       height: 100vh;
       margin: 0;
       font-family: Arial, sans-serif;
-      background: url('https://avatars.githubusercontent.com/u/106575586?v=4') no-repeat center center fixed;
-      background-size: cover;
+      background: black; /* Keeps the background black */
     }
 
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
+      width: 350px; /* Adjust this based on the box size */
+      padding: 20px;
+      background: url('https://avatars.githubusercontent.com/u/106575586?v=4') no-repeat center;
+      background-size: contain; /* Ensures the image is within the container size */
+      border-radius: 10px;
     }
 
     .box {
       width: 300px;
-      height: 320px;
       padding: 20px;
       text-align: center;
-      background-color: rgba(0, 0, 0, 0.8); /* Adding transparency for readability */
+      background-color: rgba(0, 0, 0, 0.8); /* Transparency for readability */
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(250, 249, 249, 0.7);
     }
