@@ -56,23 +56,28 @@ router.get('/', async (req, res) => {
                let session = await Pair_Code_By_Wasi_Tech.sendMessage(Pair_Code_By_Wasi_Tech.user.id, { text: '' + b64data });
 
                let WASI_MD_TEXT = `
-*_Session Connected By KANAMBO 👌_*
-*_Made With 🤍_*
-______________________________________
-╔════◇
-║ *『AMAZING YOU'VE CHOSEN KANAMBO MD』*
-║ _You Have Completed the First Step to Deploy a Whatsapp Bot._
-╚════════════════════════╝
-╔═════◇
-║  『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
-║❒ *Owner:* _https://wa.me/+254114148625_
-║❒ *Repo:* _https://github.com/Kanambp/dreaded-v2_
-║❒ *WaGroup:* _https://chat.whatsapp.com/FF6YuOZTAVB6Lu65cnY5BN_ 
-╚════════════════════════╝
-*_Am glad you have chosen KANAMBO TECH please 🙏 don't share the session_*
-_____________________________________
-	
-_Don't Forget To Give Star To My Repo_`
+🌟 *Session Successfully Connected via KANAMBO!* 👌  
+❤️ *Built with Passion*  
+
+━━━━━━━━━━━━━━━━━━━  
+
+🔹 *『 GREAT CHOICE – WELCOME TO KANAMBO MD! 』*  
+_You’ve successfully completed the first step to deploying your WhatsApp bot._ 🚀  
+
+━━━━━━━━━━━━━━━━━━━  
+
+📌 *Need Help? Find Us Here:*  
+➤ 👤 *Owner:* [Chat Now](https://wa.me/+254114148625)  
+➤ 🛠 *GitHub Repo:* [View Project](https://github.com/Kanambp/dreaded-v2)  
+➤ 🤝 *WhatsApp Group:* [Join Us](https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb)  
+
+━━━━━━━━━━━━━━━━━━━  
+
+💡 *Thank you for choosing KANAMBO TECH!*  
+🙏 *Please keep your session private.*  
+
+✨ _Don't forget to star my repo on GitHub!_ ⭐  
+`
  await Pair_Code_By_Wasi_Tech.sendMessage(Pair_Code_By_Wasi_Tech.user.id,{text:WASI_MD_TEXT},{quoted:session})
  
 
