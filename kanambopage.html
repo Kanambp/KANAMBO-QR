@@ -3,7 +3,7 @@
   <meta charset="UTF-8">
   <title>KANAMBO TECH</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  <style>
-    /* Background Styling with Neon Rays */
+    /* Modern Background Styling */
     body {
       display: flex;
       flex-direction: column;
@@ -11,115 +11,42 @@
       justify-content: center;
       height: 100vh;
       margin: 0;
-      background: radial-gradient(circle, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3), rgba(0, 255, 0, 0.3), rgba(255, 255, 0, 0.3));
+      background: linear-gradient(135deg, #1e1e2f, #252545, #2d2d5b);
       overflow: hidden;
       position: relative;
-    }
-
-    @keyframes neon-rays {
-      0% { transform: scale(1); opacity: 0.6; }
-      50% { transform: scale(1.2); opacity: 1; }
-      100% { transform: scale(1); opacity: 0.6; }
-    }
-
-    .rays {
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(0, 255, 255, 0.6), transparent);
-      border-radius: 50%;
-      animation: neon-rays 3s infinite alternate ease-in-out;
-      mix-blend-mode: screen;
-    }
-
-    .rays:nth-child(1) { top: 10%; left: 15%; background: radial-gradient(circle, rgba(255, 0, 255, 0.6), transparent); }
-    .rays:nth-child(2) { top: 40%; left: 60%; background: radial-gradient(circle, rgba(0, 255, 0, 0.6), transparent); }
-    .rays:nth-child(3) { bottom: 10%; right: 20%; background: radial-gradient(circle, rgba(255, 255, 0, 0.6), transparent); }
-
-    /* Date, Time, and Battery Styling */
-    #date {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      color: #00ffcc;
-      font-size: 18px;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    #time {
-      position: absolute;
-      bottom: 10px;
-      left: 20px;
-      color: #00ffcc;
-      font-size: 18px;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    #info {
-      margin-top: 20px;
-      color: #00ffcc;
-      font-size: 18px;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      align-items: center;
     }
 
     /* Modern Button Styling */
     .btn {
-      width: 220px;
-      padding: 12px 20px;
-      background: transparent;
-      border: 2px solid #00ffcc;
-      border-radius: 8px;
-      color: #00ffcc;
-      font-size: 17px;
+      width: 240px;
+      padding: 14px 24px;
+      background: #007bff;
+      border: none;
+      border-radius: 10px;
+      color: #ffffff;
+      font-size: 18px;
       font-family: 'Poppins', sans-serif;
       text-transform: uppercase;
-      font-weight: 600;
+      font-weight: bold;
       cursor: pointer;
-      transition: 0.5s;
-      position: relative;
-      margin-bottom: 16px;
-      overflow: hidden;
-    }
-
-    .btn::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #00ffcc;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease-in-out;
-      z-index: -1;
-    }
-
-    .btn:hover::before {
-      transform: scaleX(1);
+      transition: 0.3s;
+      margin: 12px;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
     }
 
     .btn:hover {
-      color: black;
-      box-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc;
+      background: #0056b3;
+      box-shadow: 0 6px 15px rgba(0, 86, 179, 0.5);
     }
   </style></head>
 <body>
-  <div class="rays"></div>
-  <div class="rays"></div>
-  <div class="rays"></div>  <div id="date"></div>
-  <div id="time"></div>  <!-- Modern Buttons --><button onclick="window.open('/pair')" class="btn">Pair Code</button> <button onclick="window.open('/kanamboqr')" class="btn">Scan QR Code</button> <button onclick="window.open('https://github.com/Kanambp/Kan-dreaded')" class="btn">Bot Repo</button> <button onclick="window.open('https://github.com/Kanambp/KANAMBO-QR')" class="btn">QR Code Repo</button> <button onclick="window.open('https://wa.me/254114148625')" class="btn">Contact Kanambo</button> <button onclick="window.open('https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb')" class="btn">Join Group</button>
-
-  <script>
-    function updateInfo() {
-      let now = new Date();
-      document.getElementById("date").innerText = now.toLocaleDateString();
-      document.getElementById("time").innerText = now.toLocaleTimeString();
-    }
-    
-    setInterval(updateInfo, 1000);
-    updateInfo();
-  </script></body>
+  <!-- Modern Buttons -->
+  <button onclick="window.open('/pair')" class="btn">Pair Code</button>
+  <button onclick="window.open('/kanamboqr')" class="btn">Scan QR Code</button>
+  <button onclick="window.open('https://github.com/Kanambp/Kan-dreaded')" class="btn">Bot Repo</button>
+  <button onclick="window.open('https://github.com/Kanambp/KANAMBO-QR')" class="btn">QR Code Repo</button>
+  <button onclick="window.open('https://wa.me/254114148625')" class="btn">Contact Kanambo</button>
+  <button onclick="window.open('https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb')" class="btn">Join Group</button>
+</body>
 </html>
