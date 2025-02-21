@@ -55,8 +55,9 @@ router.get('/', async (req, res) => {
                let b64data = Buffer.from(data).toString('base64');
                let session = await Pair_Code_By_Wasi_Tech.sendMessage(Pair_Code_By_Wasi_Tech.user.id, { text: '' + b64data });
 
-               let WASI_MD_TEXT = `
-🌟 *Session Successfully Connected via KANAMBO!* 👌  
+               let WASI_MD_TEXT = 
+
+`🌟 *Session Successfully Connected via KANAMBO!* 👌  
 ❤️ *Built with Passion*  
 
 ━━━━━━━━━━━━━━━━━━━  
