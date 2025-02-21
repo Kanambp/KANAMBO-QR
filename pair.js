@@ -1,103 +1,107 @@
 const PastebinAPI = require('pastebin-js'),
-pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL')
-const {makeid} = require('./id');
+pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL');
+const { makeid } = require('./id');
 const express = require('express');
 const fs = require('fs');
-let router = express.Router()
+let router = express.Router();
 const pino = require("pino");
 const {
-    default: Wasi_Tech,    useMultiFileAuthState,
+    default: Wasi_Tech,
+    useMultiFileAuthState,
     delay,
     makeCacheableSignalKeyStore,
     Browsers
 } = require("maher-zubair-baileys");
 
-function removeFile(FilePath){
-    if(!fs.existsSync(FilePath)) return false;
-    fs.rmSync(FilePath, { recursive: true, force: true })
- };
+function removeFile(FilePath) {
+    if (!fs.existsSync(FilePath)) return false;
+    fs.rmSync(FilePath, { recursive: true, force: true });
+}
+
 router.get('/', async (req, res) => {
     const id = makeid();
     let num = req.query.number;
-        async function WASI_MD_PAIR_CODE() {
-        const {
-            state,
-            saveCreds
-        } = await useMultiFileAuthState('./temp/'+id)
-     try {
+
+    async function WASI_MD_PAIR_CODE() {
+        const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
+        
+        try {
             let Pair_Code_By_Wasi_Tech = Wasi_Tech({
                 auth: {
                     creds: state.creds,
-                    keys: makeCacheableSignalKeyStore(state.keys, pino({level: "fatal"}).child({level: "fatal"})),
+                    keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
                 },
                 printQRInTerminal: false,
-                logger: pino({level: "fatal"}).child({level: "fatal"}),
+                logger: pino({ level: "fatal" }).child({ level: "fatal" }),
                 browser: ["Chrome (Linux)", "", ""]
-             });
-             if(!Pair_Code_By_Wasi_Tech.authState.creds.registered) {
+            });
+
+            if (!Pair_Code_By_Wasi_Tech.authState.creds.registered) {
                 await delay(1500);
-                        num = num.replace(/[^0-9]/g,'');
-                            const code = await Pair_Code_By_Wasi_Tech.requestPairingCode(num)
-                 if(!res.headersSent){
-                 await res.send({code});
-                     }
-                 }
-            Pair_Code_By_Wasi_Tech.ev.on('creds.update', saveCreds)
+                num = num.replace(/[^0-9]/g, '');
+                const code = await Pair_Code_By_Wasi_Tech.requestPairingCode(num);
+                
+                if (!res.headersSent) {
+                    await res.send({ code });
+                }
+            }
+
+            Pair_Code_By_Wasi_Tech.ev.on('creds.update', saveCreds);
             Pair_Code_By_Wasi_Tech.ev.on("connection.update", async (s) => {
-                const {
-                    connection,
-                    lastDisconnect
-                } = s;
+                const { connection, lastDisconnect } = s;
+
                 if (connection == "open") {
-                await delay(5000);
-                let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
-                await delay(800);
-               let b64data = Buffer.from(data).toString('base64');
-               let session = await Pair_Code_By_Wasi_Tech.sendMessage(Pair_Code_By_Wasi_Tech.user.id, { text: '' + b64data });
+                    await delay(5000);
+                    let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
+                    await delay(800);
+                    let b64data = Buffer.from(data).toString('base64');
+                    let session = await Pair_Code_By_Wasi_Tech.sendMessage(Pair_Code_By_Wasi_Tech.user.id, { text: '' + b64data });
 
-               let WASI_MD_TEXT = 
+                    // Image URL
+                    const imageUrl = "https://files.catbox.moe/dcoxvf.jpg";
 
-`🌟 *Session Successfully Connected via KANAMBO!* 👌  
-❤️ *Built with Passion*  
+                    // WhatsApp Message Text
+                    let WASI_MD_TEXT = `
+*Session Connected*  
+---------------------------  
 
-━━━━━━━━━━━━━━━━━━━  
+📱 *Follow the channel for bot updates:*  
+https://whatsapp.com/channel/0029VaZuGSxEawdxZK9CzM0Y  
 
-🔹 *『 GREAT CHOICE – WELCOME TO KANAMBO MD! 』*  
-_You’ve successfully completed the first step to deploying your WhatsApp bot._ 🚀  
+🕹 *Follow GitHub:*  
+https://github.com/Kanambp/dreaded-v2  
 
-━━━━━━━━━━━━━━━━━━━  
+🌐 *For more info, visit:*  
+https://kanambotech.com  
 
-📌 *Need Help? Find Us Here:*  
-➤ 👤 *Owner:* [Chat Now](https://wa.me/+254114148625)  
-➤ 🛠 *GitHub Repo:* [View Project](https://github.com/Kanambp/dreaded-v2)  
-➤ 🤝 *WhatsApp Group:* [Join Us](https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb)  
+😎 *Made by Kanambo Tech*
+`;
 
-━━━━━━━━━━━━━━━━━━━  
+                    const messageOptions = {
+                        image: { url: imageUrl },
+                        caption: WASI_MD_TEXT
+                    };
 
-💡 *Thank you for choosing KANAMBO TECH!*  
-🙏 *Please keep your session private.*  
+                    await Pair_Code_By_Wasi_Tech.sendMessage(Pair_Code_By_Wasi_Tech.user.id, messageOptions, { quoted: session });
 
-✨ _Don't forget to star my repo on GitHub!_ ⭐  
-`
- await Pair_Code_By_Wasi_Tech.sendMessage(Pair_Code_By_Wasi_Tech.user.id,{text:WASI_MD_TEXT},{quoted:session})
- 
-
-        await delay(100);
-        await Pair_Code_By_Wasi_Tech.ws.close();
-        return await removeFile('./temp/'+id);
-            } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+                    await delay(100);
+                    await Pair_Code_By_Wasi_Tech.ws.close();
+                    return await removeFile('./temp/' + id);
+                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
                     WASI_MD_PAIR_CODE();
                 }
             });
         } catch (err) {
-            console.log("service restated");
-            await removeFile('./temp/'+id);
-         if(!res.headersSent){
-            await res.send({code:"Service Unavailable"});
-         }
+            console.log("Service restarted");
+            await removeFile('./temp/' + id);
+            if (!res.headersSent) {
+                await res.send({ code: "Service Unavailable" });
+            }
         }
     }
-    return await WASI_MD_PAIR_CODE()
+    
+    return await WASI_MD_PAIR_CODE();
 });
-module.exports = router
+
+module.exports = router;
