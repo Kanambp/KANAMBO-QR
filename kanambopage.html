@@ -3,7 +3,7 @@
   <meta charset="UTF-8">
   <title>KANAMBO TECH</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  <style>
-    /* Background Styling with Animated Rays */
+    /* Background Styling with Subtle Rays */
     body {
       display: flex;
       flex-direction: column;
@@ -11,24 +11,25 @@
       justify-content: center;
       height: 100vh;
       margin: 0;
-      background: radial-gradient(circle, rgba(0, 255, 204, 0.2) 10%, rgba(0, 0, 0, 1) 80%);
+      background: radial-gradient(circle, rgba(0, 255, 204, 0.15) 10%, rgba(0, 0, 0, 1) 90%);
       overflow: hidden;
       position: relative;
     }
 
-    /* Animated Rays */
+    /* Soft Animated Rays */
     @keyframes rays {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% { transform: rotate(0deg); opacity: 0.3; }
+      100% { transform: rotate(360deg); opacity: 0.3; }
     }
 
     .rays {
       position: absolute;
-      width: 300%;
-      height: 300%;
-      background: repeating-linear-gradient(45deg, rgba(0, 255, 204, 0.1), rgba(0, 255, 204, 0.3) 10%, transparent 20%, transparent 30%);
-      animation: rays 10s linear infinite;
+      width: 200%;
+      height: 200%;
+      background: repeating-linear-gradient(45deg, rgba(0, 255, 204, 0.2), transparent 15%, rgba(0, 255, 204, 0.2) 30%);
+      animation: rays 15s linear infinite;
       z-index: -1;
+      opacity: 0.2;
     }
 
     /* Modern Button Styling */
@@ -49,6 +50,7 @@
       position: relative;
       margin: 10px;
       overflow: hidden;
+      background-color: rgba(0, 0, 0, 0.6);
     }
 
     .btn::before {
@@ -77,9 +79,29 @@
     .btn:active {
       transform: scale(0.95);
     }
+
+    #info {
+      margin-top: 20px;
+      color: #00ffcc;
+      font-size: 18px;
+      font-family: 'Poppins', sans-serif;
+    }
   </style></head>
 <body>
   <div class="rays"></div>  <!-- Modern Buttons --><button onclick="window.open('/pair')" class="btn">Pair Code</button> <button onclick="window.open('/kanamboqr')" class="btn">Scan QR Code</button> <button onclick="window.open('https://github.com/Kanambp/Kan-dreaded')" class="btn">Bot Repo</button> <button onclick="window.open('https://github.com/Kanambp/KANAMBO-QR')" class="btn">QR Code Repo</button> <button onclick="window.open('https://wa.me/254114148625')" class="btn">Contact Kanambo</button> <button onclick="window.open('https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb')" class="btn">Join Group</button>
 
-</body>
+  <div id="info"></div>  <script>
+    function updateInfo() {
+      let now = new Date();
+      let dateTime = now.toLocaleString();
+      
+      navigator.getBattery().then(function(battery) {
+        let batteryLevel = Math.round(battery.level * 100) + "%";
+        document.getElementById("info").innerHTML = "Date & Time: " + dateTime + " | Battery: " + batteryLevel;
+      });
+    }
+    
+    setInterval(updateInfo, 1000);
+    updateInfo();
+  </script></body>
 </html>
