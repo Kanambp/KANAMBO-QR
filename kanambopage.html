@@ -3,7 +3,7 @@
   <meta charset="UTF-8">
   <title>KANAMBO TECH</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">  <style>
-    /* Background Styling with Sparkling Effects */
+    /* Background Styling with Neon Rays */
     body {
       display: flex;
       flex-direction: column;
@@ -11,31 +11,32 @@
       justify-content: center;
       height: 100vh;
       margin: 0;
-      background: radial-gradient(circle, rgba(255, 69, 0, 0.3), rgba(0, 255, 204, 0.3), rgba(255, 255, 0, 0.3), rgba(0, 0, 255, 0.3));
+      background: radial-gradient(circle, rgba(0, 255, 255, 0.3), rgba(255, 0, 255, 0.3), rgba(0, 255, 0, 0.3), rgba(255, 255, 0, 0.3));
       overflow: hidden;
       position: relative;
     }
 
-    @keyframes sparks {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    @keyframes neon-rays {
+      0% { transform: scale(1); opacity: 0.6; }
+      50% { transform: scale(1.2); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.6; }
     }
 
-    .sparks {
+    .rays {
       position: absolute;
-      width: 5px;
-      height: 5px;
-      background: white;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0, 255, 255, 0.6), transparent);
       border-radius: 50%;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-      animation: sparks 3s linear infinite;
+      animation: neon-rays 3s infinite alternate ease-in-out;
+      mix-blend-mode: screen;
     }
 
-    .sparks:nth-child(odd) { background: #ff4500; }
-    .sparks:nth-child(even) { background: #00ffcc; }
-    .sparks:nth-child(3n) { background: #ffff00; }
-    .sparks:nth-child(4n) { background: #0000ff; }
+    .rays:nth-child(1) { top: 10%; left: 15%; background: radial-gradient(circle, rgba(255, 0, 255, 0.6), transparent); }
+    .rays:nth-child(2) { top: 40%; left: 60%; background: radial-gradient(circle, rgba(0, 255, 0, 0.6), transparent); }
+    .rays:nth-child(3) { bottom: 10%; right: 20%; background: radial-gradient(circle, rgba(255, 255, 0, 0.6), transparent); }
 
+    /* Date, Time, and Battery Styling */
     #date {
       position: absolute;
       top: 10px;
@@ -63,63 +64,59 @@
       align-items: center;
     }
 
-    #battery-icon {
-      width: 24px;
-      height: 12px;
+    /* Modern Button Styling */
+    .btn {
+      width: 220px;
+      padding: 12px 20px;
+      background: transparent;
       border: 2px solid #00ffcc;
-      border-radius: 3px;
+      border-radius: 8px;
+      color: #00ffcc;
+      font-size: 17px;
+      font-family: 'Poppins', sans-serif;
+      text-transform: uppercase;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.5s;
       position: relative;
-      margin-right: 8px;
+      margin-bottom: 16px;
+      overflow: hidden;
     }
 
-    #battery-icon::after {
+    .btn::before {
       content: "";
       position: absolute;
-      top: 50%;
-      right: -5px;
-      width: 3px;
-      height: 6px;
-      background: #00ffcc;
-      transform: translateY(-50%);
-      border-radius: 2px;
-    }
-
-    #battery-level {
+      top: 0;
+      left: 0;
+      width: 100%;
       height: 100%;
       background: #00ffcc;
-      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease-in-out;
+      z-index: -1;
+    }
+
+    .btn:hover::before {
+      transform: scaleX(1);
+    }
+
+    .btn:hover {
+      color: black;
+      box-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc;
     }
   </style></head>
 <body>
-  <div id="date"></div>
-  <div id="time"></div>  <!-- Sparks Animation -->  <script>
-    for (let i = 0; i < 50; i++) {
-      let spark = document.createElement("div");
-      spark.className = "sparks";
-      spark.style.left = Math.random() * 100 + "vw";
-      spark.style.animationDuration = (Math.random() * 2 + 1) + "s";
-      document.body.appendChild(spark);
-    }
-  </script>  <!-- Modern Buttons --><button onclick="window.open('/pair')" class="btn">Pair Code</button> <button onclick="window.open('/kanamboqr')" class="btn">Scan QR Code</button> <button onclick="window.open('https://github.com/Kanambp/Kan-dreaded')" class="btn">Bot Repo</button> <button onclick="window.open('https://github.com/Kanambp/KANAMBO-QR')" class="btn">QR Code Repo</button> <button onclick="window.open('https://wa.me/254114148625')" class="btn">Contact Kanambo</button> <button onclick="window.open('https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb')" class="btn">Join Group</button>
+  <div class="rays"></div>
+  <div class="rays"></div>
+  <div class="rays"></div>  <div id="date"></div>
+  <div id="time"></div>  <!-- Modern Buttons --><button onclick="window.open('/pair')" class="btn">Pair Code</button> <button onclick="window.open('/kanamboqr')" class="btn">Scan QR Code</button> <button onclick="window.open('https://github.com/Kanambp/Kan-dreaded')" class="btn">Bot Repo</button> <button onclick="window.open('https://github.com/Kanambp/KANAMBO-QR')" class="btn">QR Code Repo</button> <button onclick="window.open('https://wa.me/254114148625')" class="btn">Contact Kanambo</button> <button onclick="window.open('https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb')" class="btn">Join Group</button>
 
-  <div id="info">
-    <div id="battery-icon"><div id="battery-level"></div></div>
-    <span id="battery-status"></span>
-    <span id="device-info"></span>
-  </div>  <script>
+  <script>
     function updateInfo() {
       let now = new Date();
       document.getElementById("date").innerText = now.toLocaleDateString();
       document.getElementById("time").innerText = now.toLocaleTimeString();
-      
-      navigator.getBattery().then(function(battery) {
-        let batteryLevel = Math.round(battery.level * 100);
-        document.getElementById("battery-status").innerText = "Battery: " + batteryLevel + "%";
-        document.getElementById("battery-level").style.width = batteryLevel + "%";
-      });
-      
-      let deviceInfo = navigator.userAgent;
-      document.getElementById("device-info").innerText = " | Device: " + deviceInfo;
     }
     
     setInterval(updateInfo, 1000);
