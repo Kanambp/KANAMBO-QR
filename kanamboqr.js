@@ -70,7 +70,7 @@ ______________________________________
 ║  『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』
 ║❒ *Owner:* _https://wa.me/+254114148625_
 ║❒ *Repo:* _https://github.com/Kanambp/dreaded-v2_
-║❒ *WaGroup:* _https://chat.whatsapp.com/FF6YuOZTAVB6Lu65cnY5BN_ 
+║❒ *WaGroup:* _https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb_ 
 ╚════════════════════════╝
 *_Am glad you have chosen KANAMBO TECH please 🙏 don't share the session_*
 _____________________________________
