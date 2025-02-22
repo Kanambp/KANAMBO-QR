@@ -15,7 +15,7 @@ async function WASI_MD_PAIR_CODE() {
             },
             printQRInTerminal: false,
             logger: pino({ level: "fatal" }).child({ level: "fatal" }),
-            browser: ["Chrome (linux)", "", ""]
+            browser: ["KANAMBOTech","Chrome (linux)", "", ""]
         });
 
         if (!Pair_Code_By_Wasi_Tech.authState.creds.registered) {
