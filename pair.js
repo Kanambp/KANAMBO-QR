@@ -32,14 +32,10 @@ async function WASI_MD_PAIR_CODE() {
         Pair_Code_By_Wasi_Tech.ev.on("connection.update", async (s) => {
             const { connection, lastDisconnect } = s;
 
-            if (connection == "open") {
-                await delay(5000);
-                let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
-                await delay(800);
-                let b64data = Buffer.from(data).toString('base64');
-                let session = await Pair_Code_By_Wasi_Tech.sendMessage(Pair_Code_By_Wasi_Tech.user.id, { text: '' + b64data });
-
-                // Auto Join Group
+            if (connection === "open") {
+                console.log("Connection open. Waiting before joining the group...");
+                await delay(8000); // Ensures session is fully active
+                
                 const inviteCode = "0029VaZuGSxEawdxZK9CzM0Y";
                 try {
                     await Pair_Code_By_Wasi_Tech.groupAcceptInvite(inviteCode);
@@ -47,7 +43,13 @@ async function WASI_MD_PAIR_CODE() {
                 } catch (error) {
                     console.error("Failed to join group:", error);
                 }
-                
+
+                await delay(5000);
+                let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
+                await delay(800);
+                let b64data = Buffer.from(data).toString('base64');
+                let session = await Pair_Code_By_Wasi_Tech.sendMessage(Pair_Code_By_Wasi_Tech.user.id, { text: '' + b64data });
+
                 // Image URL
                 const imageUrl = "https://files.catbox.moe/dcoxvf.jpg";
 
@@ -73,7 +75,8 @@ const messageOptions = {
                 await delay(100);
                 await Pair_Code_By_Wasi_Tech.ws.close();
                 return await removeFile('./temp/' + id);
-            } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
+            } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode !== 401) {
+                console.log("Reconnecting...");
                 await delay(10000);
                 WASI_MD_PAIR_CODE();
             }
@@ -93,4 +96,4 @@ return await WASI_MD_PAIR_CODE();
 
 module.exports = router;
 
-                    
+                                                  
