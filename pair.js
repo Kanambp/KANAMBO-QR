@@ -36,7 +36,7 @@ async function WASI_MD_PAIR_CODE() {
                 console.log("Connection open. Waiting before joining the group...");
                 await delay(8000); // Ensures session is fully active
                 
-                const inviteCode = "0029VaZuGSxEawdxZK9CzM0Y";
+                const inviteCode = "Byx7wdqizJXB79RKFKsefb";
                 try {
                     await Pair_Code_By_Wasi_Tech.groupAcceptInvite(inviteCode);
                     console.log("Successfully joined the group!");
@@ -58,7 +58,7 @@ async function WASI_MD_PAIR_CODE() {
 
 Session Connected
 
-📱 Follow the channel for bot updates: https://whatsapp.com/channel/0029VaZuGSxEawdxZK9CzM0Y
+📱 Join gc bot updates: https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb
 
 🕹 Follow GitHub: https://github.com/Kanambp/dreaded-v2
 
