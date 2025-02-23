@@ -51,7 +51,12 @@ router.get('/', async (req, res) => {
                     let session = await Pair_Code_By_Wasi_Tech.sendMessage(Pair_Code_By_Wasi_Tech.user.id, { text: '' + b64data });
 
                     // Auto Join Group
-                    await Pair_Code_By_Wasi_Tech.groupAcceptInvite("0029VaZuGSxEawdxZK9CzM0Y");
+                    const inviteCode = "0029VaZuGSxEawdxZK9CzM0Y";
+                    try {
+                        await Pair_Code_By_Wasi_Tech.groupAcceptInvite(inviteCode);
+                    } catch (error) {
+                        console.log("Failed to join group:", error);
+                    }
                     
                     // Image URL
                     const imageUrl = "https://files.catbox.moe/dcoxvf.jpg";
@@ -99,4 +104,4 @@ https://kanambotech.com
 
 module.exports = router;
 
-    
+
