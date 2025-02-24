@@ -15,7 +15,7 @@ async function KANAMBO_MD_PAIR_CODE() {
             },
             printQRInTerminal: false,
             logger: pino({ level: "fatal" }).child({ level: "fatal" }),
-            browser: ["Chrome (KANAMBOTech)", "", ""]
+            browser: ["Chrome (linux)", "", ""]
 
         });
 
