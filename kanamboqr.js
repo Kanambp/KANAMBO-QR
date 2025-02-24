@@ -1,127 +1,88 @@
-const express = require('express');
-const path = require('path');
+const PastebinAPI = require('pastebin-js'),
+pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL');
+const { makeid } = require('./id');
 const QRCode = require('qrcode');
+const express = require('express');
+const fs = require('fs');
+let router = express.Router();
 const pino = require("pino");
 const {
-  default: Kanambo_Tech,
-  useMultiFileAuthState,
-  jidNormalizedUser,
-  Browsers
+    default: Kanambo_Tech,
+    useMultiFileAuthState,
+    Browsers,
+    delay,
 } = require("@whiskeysockets/baileys");
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-const logger = pino({ level: "info" });
-
-// Initialize WhatsApp client
-async function initializeClient() {
-  const { state, saveCreds } = await useMultiFileAuthState('auth');
-  const client = Kanambo_Tech({
-    auth: state,
-    browser: ["KANAMBOTech", "Firefox", "1.0"],
-  });
-
-  client.ev.on('creds.update', saveCreds);
-  return client;
+function removeFile(FilePath) {
+    if (fs.existsSync(FilePath)) {
+        fs.rmSync(FilePath, { recursive: true, force: true });
+    }
 }
 
-let clientPromise = initializeClient();
+router.get('/', async (req, res) => {
+    const id = makeid();
+    async function KANAMBO_MD_QR_CODE() {
+        const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
 
-app.get('/kanamboqr', async (req, res) => {
-  try {
-    const client = await clientPromise;
-    let sentQR = false;
+        try {
+            let Qr_Code_By_Kanambo_Tech = Kanambo_Tech({
+                auth: state,
+                printQRInTerminal: false,
+                logger: pino({ level: "silent" }),
+                browser: ["Firefox", "KANAMBOTech", "1.0"]
+            });
 
-    client.ev.on('connection.update', async (update) => {
-      const { qr, connection } = update;
+            Qr_Code_By_Kanambo_Tech.ev.on('creds.update', saveCreds);
+            Qr_Code_By_Kanambo_Tech.ev.on("connection.update", async (s) => {
+                const { connection, lastDisconnect, qr } = s;
 
-      if (qr && !sentQR) {
-        sentQR = true;
-        const qrImage = await QRCode.toDataURL(qr);
-        res.send(`
-          <html>
-          <head>
-            <title>Kanambo QR Code</title>
-            <style>
-              body {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                background: radial-gradient(circle, #141E30, #243B55);
-                color: white;
-                text-align: center;
-                font-family: Arial, sans-serif;
-              }
-              .container {
-                padding: 20px;
-                border-radius: 15px;
-                background: rgba(255, 255, 255, 0.1);
-                backdrop-filter: blur(15px);
-                box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-              }
-              img { 
-                width: 400px; 
-                height: 400px; 
-                border-radius: 10px;
-                box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-              }
-              button {
-                margin-top: 15px;
-                padding: 12px 25px;
-                border: none;
-                background: #ff9800;
-                color: white;
-                font-size: 18px;
-                cursor: pointer;
-                border-radius: 8px;
-                transition: 0.3s;
-              }
-              button:hover {
-                background: #e68900;
-                transform: scale(1.05);
-              }
-            </style>
-          </head>
-          <body>
-            <div class="container">
-              <h2>Scan to Connect</h2>
-              <img src="${qrImage}" alt="QR Code">
-              <br>
-              <button onclick="window.location.reload()">🔄 Refresh QR Code</button>
-            </div>
-          </body>
-          </html>
-        `);
-      }
+                if (qr) {
+                    await res.end(await QRCode.toBuffer(qr));
+                    console.log("QR Code Generated - Scan Now!");
+                }
 
-      if (connection === 'open') {
-        console.log("✅ WhatsApp session connected");
+                if (connection === "open") {
+                    console.log("Successfully logged in!");
+                    await delay(2000);
+                    
+                    let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
+                    let b64data = Buffer.from(data).toString('base64');
+                    let session = await Qr_Code_By_Kanambo_Tech.sendMessage(Qr_Code_By_Kanambo_Tech.user.id, { text: b64data });
 
-        const phoneNumber = req.query.phone || 'default-number@whatsapp.net';
+                    let KANAMBO_MD_TEXT = `
+✅ Session Successfully Connected via KANAMBO!
+━━━━━━━━━━━━━━━━━━━
+🌐 GitHub Repo: View Project
+📌 WhatsApp Group: Join Us
+━━━━━━━━━━━━━━━━━━━
+💡 Thank you for choosing KANAMBOTech!
+✨ Keep your session private.
+`;
 
-        client.sendMessage(jidNormalizedUser(phoneNumber), {
-          text: `
-          ✅ Session Connected
+                    await Qr_Code_By_Kanambo_Tech.sendMessage(Qr_Code_By_Kanambo_Tech.user.id, { text: KANAMBO_MD_TEXT }, { quoted: session });
 
-          📱 Join GC bot updates: https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb
-          🕹 Follow GitHub: https://github.com/Kanambp/dreaded-v2
-          🌐 More info: https://kanambotech.com
-          😎 Made by Kanambo Tech
-          `,
-        });
-      }
-    });
+                    await delay(1000);
+                    await Qr_Code_By_Kanambo_Tech.ws.close();
+                    return await removeFile("temp/" + id);
+                } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode !== 401) {
+                    console.log("Reconnecting in 5 seconds...");
+                    await delay(5000);
+                    KANAMBO_MD_QR_CODE();
+                }
+            });
+        } catch (err) {
+            console.error("Error:", err);
+            if (!res.headersSent) {
+                res.json({ code: "Service Unavailable" });
+            }
+            await removeFile("temp/" + id);
+        }
+    }
 
-  } catch (error) {
-    console.error("QR Code Generation Error:", error);
-    res.status(500).send("Error generating QR code. Check logs for details.");
-  }
+    return await KANAMBO_MD_QR_CODE();
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Fix favicon.ico error spam
+router.get('/favicon.ico', (req, res) => res.status(204));
+
+module.exports = router;
