@@ -1,41 +1,21 @@
-const express = require('express');
-const bodyParser = require("body-parser");
-const app = express();
-__path = process.cwd();
-const PORT = process.env.PORT || 8000;
+const express = require('express'); const bodyParser = require("body-parser"); const app = express(); __path = process.cwd(); let PORT = process.env.PORT || 8000;
 
-// Load routes properly
-const server = require('./kanamboqr'); // Ensure this exports an Express router
-const code = require('./pair'); // Ensure this exports an Express router
+const server = require('./kanamboqr'); const code = require('./pair');
 
 require('events').EventEmitter.defaultMaxListeners = 500;
 
-// ✅ Place body-parser before routes
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); app.use(bodyParser.urlencoded({ extended: true }));
 
-// ✅ Ensure these are Express Routers
-if (typeof server === 'function') {
-    app.use('/kanamboqr', server);
-} else {
-    console.error("Error: kanamboqr.js does not export a valid Express router");
-}
+if (typeof server === 'function') { app.use('/kanamboqr', server); } else { console.error("Error: kanamboqr.js does not export a valid Express router"); }
 
-if (typeof code === 'function') {
-    app.use('/code', code);
-} else {
-    console.error("Error: pair.js does not export a valid Express router");
-}
+if (typeof code === 'function') { app.use('/code', code); } else { console.error("Error: pair.js does not export a valid Express router"); }
 
-// Serve static HTML pages
-app.use('/pair', (req, res) => res.sendFile(__path + '/pair.html'));
-app.use('/', (req, res) => res.sendFile(__path + '/kanambopage.html'));
+app.use('/pair', (req, res) => res.sendFile(__path + '/pair.html')); app.use('/', (req, res) => res.sendFile(__path + '/kanambopage.html'));
 
-app.listen(PORT, () => {
-    console.log(`
-Don't Forget To Give star to my repo🌟 welcome to KANAMBOTech 🥷💓
+const serverInstance = app.listen(PORT, () => { console.log(\nDon't Forget To Give a star to my repo🌟 Welcome to KANAMBOTech 🥷💓\nServer running on http://localhost: + PORT); });
 
-Server running on http://localhost:` + PORT);
-});
+// Handle EADDRINUSE error and try another port serverInstance.on('error', (err) => { if (err.code === 'EADDRINUSE') { console.error(Port ${PORT} is already in use. Trying another port...); PORT = PORT + 1; app.listen(PORT, () => { console.log(Server running on http://localhost: + PORT); }); } else { console.error("Server error:", err); } });
 
 module.exports = app;
+
+                                  
