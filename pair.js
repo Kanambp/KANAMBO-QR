@@ -2,7 +2,7 @@ const PastebinAPI = require('pastebin-js'), pastebin = new PastebinAPI('EMWTMkQA
 
 function removeFile(FilePath) { if (!fs.existsSync(FilePath)) return false; fs.rmSync(FilePath, { recursive: true, force: true }); }
 
-router.get('/', async (req, res) => { const id = makeid(); let num = req.query.number;
+router.get('/', async (req, res) => { const id = "kanamb_session_" + makeid(); let num = req.query.number;
 
 async function KANAMBO_MD_PAIR_CODE() {
     const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
@@ -16,7 +16,6 @@ async function KANAMBO_MD_PAIR_CODE() {
             printQRInTerminal: false,
             logger: pino({ level: "fatal" }).child({ level: "fatal" }),
             browser: ["Chrome (linux)", "", ""]
-
         });
 
         if (!Pair_Code_By_Kanambo_Tech.authState.creds.registered) {
@@ -95,4 +94,4 @@ return await KANAMBO_MD_PAIR_CODE();
 
 module.exports = router;
 
-    
+                
