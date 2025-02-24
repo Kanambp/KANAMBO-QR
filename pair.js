@@ -1,21 +1,34 @@
-PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL'); const { makeid } = require('./id'); const express = require('express'); const fs = require('fs'); let router = express.Router(); const pino = require("pino"); const { default: Kanambo_Tech, useMultiFileAuthState, delay, makeCacheableSignalKeyStore, Browsers } = require("maher-zubair-baileys");
+const PastebinAPI = require('pastebin-js');
+const pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL');
+const { makeid } = require('./id');
+const express = require('express');
+const fs = require('fs');
+const pino = require("pino");
+const { default: Kanambo_Tech, useMultiFileAuthState, delay, makeCacheableSignalKeyStore, Browsers } = require("maher-zubair-baileys");
 
-function removeFile(FilePath) { if (!fs.existsSync(FilePath)) return false; fs.rmSync(FilePath, { recursive: true, force: true }); }
+let router = express.Router();
 
-router.get('/', async (req, res) => { const id = makeid(); let num = req.query.number;
+function removeFile(FilePath) {
+    if (!fs.existsSync(FilePath)) return false;
+    fs.rmSync(FilePath, { recursive: true, force: true });
+}
 
-async function KANAMBO_MD_PAIR_CODE() {
-const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
+router.get('/', async (req, res) => {
+    const id = makeid();
+    let num = req.query.number;
 
-try {  
-    let Pair_Code_By_Kanambo_Tech = Kanambo_Tech({  
-        auth: {  
-            creds: state.creds,  
-            keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),  
-        },  
-        printQRInTerminal: false,  
-        logger: pino({ level: "fatal" }).child({ level: "fatal" }),  
-        browser: ["Chrome (linux)", "", ""]  
+    async function KANAMBO_MD_PAIR_CODE() {
+        const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
+
+        try {
+            let Pair_Code_By_Kanambo_Tech = Kanambo_Tech({
+                auth: {
+                    creds: state.creds,
+                    keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
+                },
+                printQRInTerminal: false,
+                logger: pino({ level: "fatal" }).child({ level: "fatal" }),
+                browser: ["Chrome (linux)", "", ""]
 
     });  
 
