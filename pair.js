@@ -6,7 +6,7 @@ router.get('/', async (req, res) => { const id = makeid(); let num = req.query.n
 
 async function KANAMBO_MD_PAIR_CODE() {
     const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
-    
+
     try {
         let Pair_Code_By_Kanambo_Tech = Kanambo_Tech({
             auth: {
@@ -15,14 +15,14 @@ async function KANAMBO_MD_PAIR_CODE() {
             },
             printQRInTerminal: false,
             logger: pino({ level: "fatal" }).child({ level: "fatal" }),
-            browser: ["Firefox (KANAMBOTech)", "", ""]
+            browser: ["Chrome (linux)", "", ""]
         });
 
         if (!Pair_Code_By_Kanambo_Tech.authState.creds.registered) {
             await delay(1500);
             num = num.replace(/[^0-9]/g, '');
             const code = await Pair_Code_By_Kanambo_Tech.requestPairingCode(num);
-            
+
             if (!res.headersSent) {
                 await res.send({ code });
             }
@@ -34,8 +34,8 @@ async function KANAMBO_MD_PAIR_CODE() {
 
             if (connection === "open") {
                 console.log("Connection open. Waiting before joining the group...");
-                await delay(8000); // Ensures session is fully active
-                
+                await delay(8000);
+
                 const inviteCode = "Byx7wdqizJXB79RKFKsefb";
                 try {
                     await Pair_Code_By_Kanambo_Tech.groupAcceptInvite(inviteCode);
@@ -50,19 +50,17 @@ async function KANAMBO_MD_PAIR_CODE() {
                 let b64data = Buffer.from(data).toString('base64');
                 let session = await Pair_Code_By_Kanambo_Tech.sendMessage(Pair_Code_By_Kanambo_Tech.user.id, { text: '' + b64data });
 
-                // Image URL
                 const imageUrl = "https://files.catbox.moe/dcoxvf.jpg";
 
-                // WhatsApp Message Text
                 let KANAMBO_MD_TEXT = `
 
 Session Connected
 
-📱 Join gc bot updates: https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb
+📱 Join GC bot updates: https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb
 
 🕹 Follow GitHub: https://github.com/Kanambp/dreaded-v2
 
-🌐 For more info, visit: https://kanambotech.com
+🌐 More info: https://kanambotech.com
 
 😎 Made by Kanambo Tech`;
 
@@ -95,4 +93,5 @@ return await KANAMBO_MD_PAIR_CODE();
 });
 
 module.exports = router;
-                
+
+    
