@@ -1,21 +1,28 @@
-const express = require('express'); const bodyParser = require("body-parser"); const app = express(); __path = process.cwd(); let PORT = process.env.PORT || 8000;
-
-const server = require('./kanamboqr'); const code = require('./pair');
-
+const express = require('express');
+const app = express();
+__path = process.cwd()
+const bodyParser = require("body-parser");
+const PORT = process.env.PORT || 8000;
+let server = require('./kanamboqr'),
+code = require('./pair');
 require('events').EventEmitter.defaultMaxListeners = 500;
+app.use('/kanamboqr', server);
+app.use('/code', code);
+app.use('/pair',async (req, res, next) => {
+res.sendFile(__path + '/pair.html')
+})
+app.use('/',async (req, res, next) => {
+res.sendFile(__path + '/kanambopage.html')
+})
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.listen(PORT, () => {
+console.log(`
+Don't Forget To Give star to my repo🌟 welcome to KANAMBOTech 🥷💓
 
-app.use(bodyParser.json()); app.use(bodyParser.urlencoded({ extended: true }));
+Server running on http://localhost:` + PORT)
+})
 
-if (typeof server === 'function') { app.use('/kanamboqr', server); } else { console.error("Error: kanamboqr.js does not export a valid Express router"); }
+module.exports = app
 
-if (typeof code === 'function') { app.use('/code', code); } else { console.error("Error: pair.js does not export a valid Express router"); }
-
-app.use('/pair', (req, res) => res.sendFile(__path + '/pair.html')); app.use('/', (req, res) => res.sendFile(__path + '/kanambopage.html'));
-
-const serverInstance = app.listen(PORT, () => { console.log(\nDon't Forget To Give a star to my repo🌟 Welcome to KANAMBOTech 🥷💓\nServer running on http://localhost: + PORT); });
-
-// Handle EADDRINUSE error and try another port serverInstance.on('error', (err) => { if (err.code === 'EADDRINUSE') { console.error(Port ${PORT} is already in use. Trying another port...); PORT = PORT + 1; app.listen(PORT, () => { console.log(Server running on http://localhost: + PORT); }); } else { console.error("Server error:", err); } });
-
-module.exports = app;
-
-                                  
+  
