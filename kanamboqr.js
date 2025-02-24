@@ -1,19 +1,12 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs');
-const pino = require("pino");
 const QRCode = require('qrcode');
-const { makeid } = require('./id');
-const PastebinAPI = require('pastebin-js');
-const pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL');
-
+const pino = require("pino");
 const {
   default: Kanambo_Tech,
   useMultiFileAuthState,
   jidNormalizedUser,
-  Browsers,
-  delay,
-  makeInMemoryStore,
+  Browsers
 } = require("@whiskeysockets/baileys");
 
 const app = express();
@@ -23,18 +16,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const logger = pino({ level: "info" });
 
+// Initialize WhatsApp client
+async function initializeClient() {
+  const { state, saveCreds } = await useMultiFileAuthState('auth');
+  const client = Kanambo_Tech({
+    auth: state,
+    browser: ["KANAMBOTech", "Firefox", "1.0"],
+  });
+
+  client.ev.on('creds.update', saveCreds);
+  return client;
+}
+
+let clientPromise = initializeClient();
+
 app.get('/kanamboqr', async (req, res) => {
   try {
-    const { state, saveCreds } = await useMultiFileAuthState('auth');
-    const client = Kanambo_Tech({
-      auth: state,
-      browser: ["KANAMBOTech", "Firefox", "1.0"],
-    });
+    const client = await clientPromise;
+    let sentQR = false;
 
     client.ev.on('connection.update', async (update) => {
       const { qr, connection } = update;
 
-      if (qr) {
+      if (qr && !sentQR) {
+        sentQR = true;
         const qrImage = await QRCode.toDataURL(qr);
         res.send(`
           <html>
@@ -59,8 +64,8 @@ app.get('/kanamboqr', async (req, res) => {
                 box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
               }
               img { 
-                width: 350px; 
-                height: 350px; 
+                width: 400px; 
+                height: 400px; 
                 border-radius: 10px;
                 box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
               }
@@ -94,9 +99,13 @@ app.get('/kanamboqr', async (req, res) => {
       }
 
       if (connection === 'open') {
-        client.sendMessage(jidNormalizedUser(req.query.phone || ''), {
+        console.log("✅ WhatsApp session connected");
+
+        const phoneNumber = req.query.phone || 'default-number@whatsapp.net';
+
+        client.sendMessage(jidNormalizedUser(phoneNumber), {
           text: `
-          Session Connected ✅
+          ✅ Session Connected
 
           📱 Join GC bot updates: https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb
           🕹 Follow GitHub: https://github.com/Kanambp/dreaded-v2
@@ -107,7 +116,6 @@ app.get('/kanamboqr', async (req, res) => {
       }
     });
 
-    client.ev.on('creds.update', saveCreds);
   } catch (error) {
     console.error("QR Code Generation Error:", error);
     res.status(500).send("Error generating QR code. Check logs for details.");
