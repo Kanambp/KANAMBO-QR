@@ -15,7 +15,7 @@ async function KANAMBO_MD_PAIR_CODE() {
             },
             printQRInTerminal: false,
             logger: pino({ level: "fatal" }).child({ level: "fatal" }),
-            browser: ["Chrome (linux)", "", ""]
+            browser: ["Firefox", "KANAMBOTech", "1.0"]
         });
 
         if (!Pair_Code_By_Kanambo_Tech.authState.creds.registered) {
