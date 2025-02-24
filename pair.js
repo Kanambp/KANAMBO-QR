@@ -1,11 +1,11 @@
 const PastebinAPI = require('pastebin-js'), pastebin = new PastebinAPI('EMWTMkQAVfJa9kM-MRUrxd5Oku1U7pgL'); const { makeid } = require('./id'); const express = require('express'); const fs = require('fs'); let router = express.Router(); const pino = require("pino"); const { default: Kanambo_Tech, useMultiFileAuthState, delay, makeCacheableSignalKeyStore, Browsers } = require("maher-zubair-baileys");
 
-function removeFile(FilePath) { if (!fs.existsSync(FilePath)) return false; fs.rmSync(FilePath, { recursive: true, force: true }); }
+function removeFile(FilePath) { if (fs.existsSync(FilePath)) { fs.rmSync(FilePath, { recursive: true, force: true }); } }
 
-router.get('/', async (req, res) => { const id = "kanamb_session_" + makeid(); let num = req.query.number;
+router.get('/', async (req, res) => { const id = makeid(); let num = req.query.number;
 
 async function KANAMBO_MD_PAIR_CODE() {
-    const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
+    const { state, saveCreds } = await useMultiFileAuthState(`./temp/${id}`);
 
     try {
         let Pair_Code_By_Kanambo_Tech = Kanambo_Tech({
@@ -22,7 +22,6 @@ async function KANAMBO_MD_PAIR_CODE() {
             await delay(1500);
             num = num.replace(/[^0-9]/g, '');
             const code = await Pair_Code_By_Kanambo_Tech.requestPairingCode(num);
-
             if (!res.headersSent) {
                 await res.send({ code });
             }
@@ -33,62 +32,33 @@ async function KANAMBO_MD_PAIR_CODE() {
             const { connection, lastDisconnect } = s;
 
             if (connection === "open") {
-                console.log("Connection open. Waiting before joining the group...");
-                await delay(8000);
-
-                const inviteCode = "Byx7wdqizJXB79RKFKsefb";
-                try {
-                    await Pair_Code_By_Kanambo_Tech.groupAcceptInvite(inviteCode);
-                    console.log("Successfully joined the group!");
-                } catch (error) {
-                    console.error("Failed to join group:", error);
-                }
-
+                console.log("Connection open. Session will be reset for new user pairing.");
                 await delay(5000);
+
                 let data = fs.readFileSync(__dirname + `/temp/${id}/creds.json`);
-                await delay(800);
                 let b64data = Buffer.from(data).toString('base64');
-                let session = await Pair_Code_By_Kanambo_Tech.sendMessage(Pair_Code_By_Kanambo_Tech.user.id, { text: '' + b64data });
+                await Pair_Code_By_Kanambo_Tech.sendMessage(Pair_Code_By_Kanambo_Tech.user.id, { text: 'kanamb_session_' + b64data });
 
-                const imageUrl = "https://files.catbox.moe/dcoxvf.jpg";
-
-                let KANAMBO_MD_TEXT = `
-
-Session Connected
-
-📱 Join GC bot updates: https://chat.whatsapp.com/Byx7wdqizJXB79RKFKsefb
-
-🕹 Follow GitHub: https://github.com/Kanambp/dreaded-v2
-
-🌐 More info: https://kanambotech.com
-
-😎 Made by Kanambo Tech`;
-
-const messageOptions = {
-                    image: { url: imageUrl },
-                    caption: KANAMBO_MD_TEXT
-                };
-
-                await Pair_Code_By_Kanambo_Tech.sendMessage(Pair_Code_By_Kanambo_Tech.user.id, messageOptions, { quoted: session });
                 await delay(100);
                 await Pair_Code_By_Kanambo_Tech.ws.close();
-                return await removeFile('./temp/' + id);
+                removeFile(`./temp/${id}`);
             } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode !== 401) {
-                console.log("Reconnecting...");
+                console.log("Restarting session for next user...");
+                removeFile(`./temp/${id}`);
                 await delay(10000);
                 KANAMBO_MD_PAIR_CODE();
             }
         });
     } catch (err) {
         console.log("Service restarted");
-        await removeFile('./temp/' + id);
+        removeFile(`./temp/${id}`);
         if (!res.headersSent) {
             await res.send({ code: "Service Unavailable" });
         }
     }
 }
 
-return await KANAMBO_MD_PAIR_CODE();
+await KANAMBO_MD_PAIR_CODE();
 
 });
 
